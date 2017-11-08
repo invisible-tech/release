@@ -23,3 +23,4 @@ deployment:
     branch: master
     commands:
       - publish
+      - bin/release -c=ANNOUNCEMENTS.md

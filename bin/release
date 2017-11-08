@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+'use strict'
+
+const { argv } = require('yargs')
+  .option('changelogFile', {
+    alias: 'c',
+    describe: 'The file to look for release notes',
+    default: 'CHANGELOG.md',
+  })
+  .option('quiet', {
+    alias: 'q',
+    default: false,
+    describe: 'Will silently succeed or fail',
+    boolean: true,
+  })
+  .option('draft', {
+    alias: 'd',
+    default: false,
+    describe: 'Will create a release draft',
+    boolean: true,
+  })
+  .version()
+  .help()
+  .wrap(null)
+
+const release = require('../src/release')
+
+try {
+  const dotenv = require('dotenv')
+  dotenv.config()
+} catch (err) {
+  // dotenv is optional dependency, don't throw if it's not installed
+}
+
+const { GITHUB_TOKEN } = process.env
+
+release({ githubToken: GITHUB_TOKEN, draft: argv.draft, changelogFile: argv.changelogFile })
+  .then(({ pass, msg }) => {
+    if (msg && ! argv.quiet) console.log(`release: ${msg}`)
+    if (pass) return process.exit(0)
+    return process.exit(1)
+  })
+  .catch(err => {
+    console.log(err.message)
+    process.exit(1)
+  })
