@@ -1,7 +1,7 @@
 {
-  "name": "@invisible/tagger",
+  "name": "@invisible/release",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "engines": {
     "node": "^8.5.0"
@@ -12,8 +12,11 @@
     "name": "Invisible Technologies",
     "url": "https://github.com/invisible-tech"
   },
+  "bin": {
+    "release": "bin/release"
+  },
   "files": [
-    "src"
+    "."
   ],
   "main": "src/index.js",
   "keywords": [],
@@ -34,21 +37,28 @@
     "sinon-express-mock": "^1.3.1",
     "yarn": "^1"
   },
-  "repository": "git@github.com:invisible-tech/tagger.git",
+  "repository": "git@github.com:invisible-tech/release.git",
   "scripts": {
     "builddoc": "./node_modules/.bin/jsdoc -c ./.jsdoc.json",
     "coverage": "nyc report --reporter=lcov --reporter=html --reporter=text-summary --reporter=text",
     "lint": "eslint --cache -f node_modules/eslint-formatter-pretty --ignore-path .gitignore .",
-    "pretest": "npm run lint",
-    "test": "npm run test-only",
+    "pretest": "yarn lint",
+    "test": "yarn test-only",
     "test-only": "NODE_ENV=test nyc mocha test/**/*.spec.js",
     "test-watch": "NODE_ENV=test mocha -w test/**/*.spec.js",
-    "posttest": "assert-version-bump && nsp check"
+    "posttest": "assert-version-bump && assert-changelog-update && nsp check"
   },
   "dependencies": {
+    "@invisible/changelog-update": "^1.0.9",
     "app-module-path": "^2.2.0",
     "common-tags": "^1.4.0",
-    "dotenv": "^4.0.0",
-    "lodash": "^4.17.4"
+    "cross-spawn": "^5.1.0",
+    "find-package-json": "^1.0.0",
+    "lodash": "^4.17.4",
+    "octonode": "^0.9.1",
+    "yargs": "^10.0.3"
+  },
+  "optionalDependencies": {
+    "dotenv": "^4.0.0"
   }
 }
