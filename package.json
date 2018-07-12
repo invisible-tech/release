@@ -19,7 +19,7 @@
   "keywords": [],
   "devDependencies": {
     "@invisible/eslint-config": "^1.1.4",
-    "@invisible/publish": "^1.1.8",
+    "@invisible/publish": "^2.0.1",
     "docdash": "^0.4.0",
     "eslint": "^4.7.2",
     "intelli-espower-loader": "^1.0.1",
